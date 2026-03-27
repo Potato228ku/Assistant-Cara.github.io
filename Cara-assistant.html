@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Помощник Сара</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+    }
+    .chat-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .chat-header {
+      background-color: #4CBB17;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 1.2em;
+    }
+    .chat-messages {
+      padding: 20px;
+      height: 300px;
+      overflow-y: auto;
+      background-color: #f0f0f0;
+    }
+    .message {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .user {
+      background-color: #E1F5FE;
+      margin-left: 20%;
+      max-width: 80%;
+    }
+    .sarah {
+      background-color: #E1F5FE;
+      margin-right: 20%;
+      max-width: 80%;
+    }
+    .chat-input {
+      display: flex;
+      padding: 10px;
+      background-color: #f0f0f0;
+    }
+    #userInput {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      outline: none;
+    }
+    #sendButton {
+      padding: 10px 15px;
+      background-color: #228B22;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    #sendButton:hover {
+      background-color: #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">Помощник Сара</div>
+    <div id="chatMessages" class="chat-messages"></div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Напишите сообщение..." />
+      <button id="sendButton">Отправить</button>
+    </div>
+  </div>
+
+  <script>
+    const chatMessages = document.getElementById('chatMessages');
+    const userInput = document.getElementById('userInput');
+    const sendButton = document.getElementById('sendButton');
+
+    // Функция добавления сообщения в чат
+    function addMessage(text, className) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${className}`;
+      messageDiv.textContent = text;
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight; // Автопрокрутка
+    }
+
+    // Функция обработки ввода пользователя
+    function handleUserInput() {
+      const userInputLower = userInput.value.trim().toLowerCase();
+      
+      if (userInputLower === '') return;
+
+      // Добавляем сообщение пользователя
+      addMessage(userInput.value, 'user');
+
+      let response = '';
+
+      // Логика ответов Сары
+      if (userInputLower.includes('привет')) {
+        response = 'Привет! Чем я могу вам помочь?';
+      } else if (userInputLower.includes('как дела')) {
+        response = 'У меня всё хорошо, спасибо! А у вас?';
+      } else if (userInputLower.includes('2+2')) {
+        response = 'Ответ 4!';
+      } else if (userInputLower.includes('как тебя зовут')) {
+        response = 'Меня зовут Сара. А как вас зовут?';
+      } else if (userInputLower.includes('кто тебя создал')) {
+        response = 'Компания Мусодор';
+      } else if (userInputLower.includes('ты знаешь кто такая алиса') || userInputLower.includes('ты знаешь алису')) {
+        response = 'Конечно! Она и помогла мне появиться!';
+      } else if (userInputLower.includes('погода')) {
+        response = 'Погоду можно посмотреть на этом сайте https://pogoda.mail.ru';
+      } else if (userInputLower.includes('пока')) {
+        response = 'До свидания! Если понадобиться помощь я здесь!';
+      } else if (userInputLower.includes('анекдот')) {
+        response = 'У меня есть сайт с анекдотами вот anekdot.ru';
+      } else if (userInputLower.includes('время') || userInputLower.includes('времени')) {
+        response = 'Время можно посмотреть здесь https://time100.ru/Krasnoyarsk если у вас другой город то там можно выбрать другой';
+      } else if (userInputLower.includes('спасибо')) {
+        response = 'Пожалуйста! если ещё в чём-то нужно помочь я с радостью помогу!';
+      } else if (userInputLower.includes('меня зовут')) {
+        response = 'Очень приятно! Я Сара';
+      } else if (userInputLower.includes('что ты умеешь')) {
+        response = 'Я умею отвечать на вопросы, говорить на каком сайте можно посмотреть время или погоду, могу показать сайт с анекдотами. Чем я могу вам помочь?';
+      } else if (userInputLower.includes('прости')) {
+        response = 'Ничего страшного я не обиделась';
+      } else if (userInputLower.includes('у меня дела хорош') || userInputLower.includes('у меня дела отличн')) {
+        response = 'Я рада что у вас всё хорошо!';
+      } else if (userInputLower.includes('у меня дела плох') || userInputLower.includes('у меня дела не очень')) {
+        response = 'Мне жаль что у вас не всё хорошо, я могу предложить вам посмотреть анекдоты чтобы поднять настроение?';
+      } else {
+        response = 'Извините, я не понимаю. Можете переформулировать?';
+      }
+      // Добавляем ответ Сары
+      setTimeout(() => {
+        addMessage(response, 'sarah');
+      }, 500);
+
+      // Очищаем поле ввода
+      userInput.value = '';
+    }
+
+    // Обработчики событий
+    sendButton.addEventListener('click', handleUserInput);
+
+    userInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        handleUserInput();
+      }
+    });
+  </script>
+</body>
+</html>
